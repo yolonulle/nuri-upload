@@ -139,7 +139,7 @@ public class RegisterActivity extends Activity {
                         String verify = user.getString("verify");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at, verify);
+                        db.addUser(name, email, uid, created_at, "nickname", "image.com", verify);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 

@@ -121,7 +121,7 @@ public class UploadPerformanceActivity extends AppCompatActivity{
         HashMap<String, String> user = db.getUserDetails();
         s_email = user.get("email").toString();
 
-        // Toast.makeText(getApplicationContext(), "이메일 : " + s_email, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "이메일 : " + s_email, Toast.LENGTH_SHORT).show();
         java.util.Calendar cal = java.util.Calendar.getInstance();
 
         year = cal.get ( cal.YEAR );

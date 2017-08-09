@@ -34,6 +34,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_UID = "uid";
     private static final String KEY_CREATED_AT = "created_at";
+    private static final String KEY_SUB_NAME = "sub_name";
+    private static final String KEY_IMAGE = "image";
     private static final String KEY_VERIFY = "verify";
 
     public SQLiteHandler(Context context) {
@@ -46,10 +48,10 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_EMAIL + " TEXT UNIQUE," + KEY_UID + " TEXT,"
-                + KEY_CREATED_AT + " TEXT,"
-                + KEY_VERIFY + " TEXT" + ")";
-        db.execSQL(CREATE_LOGIN_TABLE);
+                + KEY_CREATED_AT + " TEXT," + KEY_SUB_NAME + " TEXT,"
+                + KEY_IMAGE + " TEXT, " + KEY_VERIFY + " TEXT" + ")";
 
+        db.execSQL(CREATE_LOGIN_TABLE);
         Log.d(TAG, "Database tables created");
     }
 
@@ -58,7 +60,6 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-
         // Create tables again
         onCreate(db);
     }
@@ -66,7 +67,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String name, String email, String uid, String created_at, String verify) {
+    public void addUser(String name, String email, String uid, String created_at, String sub_name, String image, String verify) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -74,13 +75,30 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(KEY_EMAIL, email); // Email
         values.put(KEY_UID, uid); // Email
         values.put(KEY_CREATED_AT, created_at); // Created At
-        values.put(KEY_VERIFY, verify);
+        values.put(KEY_SUB_NAME, sub_name); // Subname
+        values.put(KEY_IMAGE, image); // Image
+        values.put(KEY_VERIFY, verify); // Verify
 
         // Inserting Row
         long id = db.insert(TABLE_USER, null, values);
         db.close(); // Closing database connection
 
         Log.d(TAG, "New user inserted into sqlite: " + id);
+    }
+
+    /**
+     * Storing user details in database
+     * */
+    public void updateUser(String email, String sub_name, String image) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_SUB_NAME, sub_name); // Subname
+        values.put(KEY_IMAGE, image); // Image
+
+        // Inserting Row
+        db.update(TABLE_USER, values, "email=?", new String[]{email});
+        db.close(); // Closing database connection
     }
 
     /**
@@ -92,6 +110,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
         // Move to first row
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
@@ -99,7 +118,9 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             user.put("email", cursor.getString(2));
             user.put("uid", cursor.getString(3));
             user.put("created_at", cursor.getString(4));
-            user.put("verify", cursor.getString(5));
+            user.put("sub_name", cursor.getString(5));
+            user.put("image", cursor.getString(6));
+            user.put("verify", cursor.getString(7));
         }
         cursor.close();
         db.close();

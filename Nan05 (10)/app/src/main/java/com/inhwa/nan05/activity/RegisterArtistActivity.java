@@ -174,7 +174,7 @@ public class RegisterArtistActivity extends Activity {
                                 .getString("created_at");
                         String verify = user.getString("verify");
 
-                        db.addUser(name, email, uid, created_at, verify);
+                        db.addUser(name, email, uid, created_at, "nickname", "image.com", verify);
                         // Launch login activity
                         Intent intent = new Intent(
                                 RegisterArtistActivity.this,

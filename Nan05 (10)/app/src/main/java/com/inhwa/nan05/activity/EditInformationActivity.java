@@ -40,6 +40,9 @@ import com.inhwa.nan05.app.AppConfig;
 import com.inhwa.nan05.app.AppController;
 import com.inhwa.nan05.helper.SQLiteHandler;
 import com.inhwa.nan05.helper.SessionManager;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -118,9 +121,10 @@ public class EditInformationActivity extends Activity {
 
         String name = user.get("name");
         String email = user.get("email");
+        String sub_name = user.get("sub_name");
+        String image = user.get("image");
 
         profile = (ImageView) findViewById(R.id.imageV);
-
         modify = (Button) findViewById(R.id.btnModify);
         cancel = (Button) findViewById(R.id.btnCancel2);
         change = (ImageButton) findViewById(R.id.changeImg);
@@ -128,8 +132,14 @@ public class EditInformationActivity extends Activity {
         tv_name = (TextView) findViewById(R.id.nameEt);
         tv_email = (TextView) findViewById(R.id.emailEt);
         edit_nickname = (EditText) findViewById(R.id.nnEt);
+
+
         tv_name.setText(name);
         tv_email.setText(email);
+        edit_nickname.setText(sub_name);
+        Picasso.with(getApplicationContext()).invalidate("");
+        Picasso.with(this).load(image).memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE).into(profile);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -164,16 +174,13 @@ public class EditInformationActivity extends Activity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case CHOICE:
-                final CharSequence[] items = {"사진 찍기", "사진 가져오기"};
+                final CharSequence[] items = {"사진 가져오기"};
                 AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 
                 dialog.setItems(items,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                if (items[id] == "사진 찍기") {
-                                    dispatchTakePictureIntent();
-                                    dialog.dismiss();
-                                } else if (items[id] == "사진 가져오기") {
+                                if (items[id] == "사진 가져오기") {
                                     albumAction();
                                 }
                                 dialog.dismiss();
@@ -197,14 +204,6 @@ public class EditInformationActivity extends Activity {
 
     boolean isAlbum = false;
 
-    private void dispatchTakePictureIntent() {
-
-       Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
     private void albumAction() {
         Intent albumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         albumIntent.setType("image/*");
@@ -222,26 +221,6 @@ public class EditInformationActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("onActivityResult", "CALL");
         super.onActivityResult(requestCode, resultCode, data);
-
-        // take a picture
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            profile.setImageBitmap(imageBitmap);
-            image = getStringImage(imageBitmap);
-          /**  Uri file_path = data.getData();
-            try {
-                //Getting the Bitmap from Gallery
-                capture_bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), file_path);
-                //Setting the Bitmap to ImageView
-                profile.setImageBitmap(capture_bitmap);
-                image = getStringImage(capture_bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }**/
-        }
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
@@ -266,13 +245,11 @@ public class EditInformationActivity extends Activity {
         return encodedImage;
     }
 
+    // load Profile to Server
     private void editProfile(final String email, final String nickname) {
-
         String tag_string_req = "req_editProfile";
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_EDIT_PROFILE, new Response.Listener<String>() {
-
+        StringRequest strReq = new StringRequest(Request.Method.POST, AppConfig.URL_EDIT_PROFILE, new Response.Listener<String>()
+        {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Register Response: " + response.toString());
@@ -280,26 +257,28 @@ public class EditInformationActivity extends Activity {
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-                    // Check for error node in json
                     if (!error) {
+                        if(image!=null) {
+                            String imagepath = jObj.getString("imagepath");
+                            db.updateUser(email, nickname, imagepath);
+                        }
+
+                        else {
+                            HashMap<String, String> user = db.getUserDetails();
+                            db.updateUser(email, nickname, user.get("image"));
+                        }
                         Toast.makeText(getApplicationContext(), "성공적으로 수정되었습니다.", Toast.LENGTH_SHORT).show();
                         finish();
-
                     } else {
-                        // Error in update. Get the error message
                         String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    // JSON error
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
             }
-        }, new Response.ErrorListener() { //error
-
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Update Error: " + error.getMessage());
@@ -308,17 +287,15 @@ public class EditInformationActivity extends Activity {
                 //     hideDialog();
             }
         }) {
-
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
-                params.put("image", image);
                 params.put("nickname", nickname);
+                if (image!=null) params.put("image", image);
                 return params;
             }
-
         };
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);

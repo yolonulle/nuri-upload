@@ -112,9 +112,8 @@ public class LoginActivity extends Activity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(
                                             DialogInterface dialog, int id) {
-
                                         // ArtistRegisterActivity
-                                        Intent i = new Intent(getApplicationContext(), RegisterArtistActivity.class);
+                                        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
                                         startActivity(i);
                                         finish();
                                     }
@@ -123,7 +122,6 @@ public class LoginActivity extends Activity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(
                                             DialogInterface dialog, int id) {
-
                                         // RegisterActivity
                                         Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
                                         startActivity(i);
@@ -183,12 +181,14 @@ public class LoginActivity extends Activity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
+                        String created_at = user.getString("created_at");
+
+                        String image = user.getString("image");
+                        String sub_name = user.getString("sub_name");
                         String verify = user.getString("verify");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at, verify);
+                        db.addUser(name, email, uid, created_at, sub_name, image, verify);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,
@@ -225,7 +225,6 @@ public class LoginActivity extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
                 params.put("password", password);
-
                 return params;
             }
 
