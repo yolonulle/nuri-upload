@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="region">
+        <item>신촌</item>
+        <item>홍대</item>
+        <item>강남</item>
+        <item>대학로</item>
+    </string-array>
+
+    <string-array name="region_picture">
+        <item>http://220.230.122.180/image/r_sinchon.jpg</item>
+        <item>http://220.230.122.180/image/r_hongdae.jpg</item>
+        <item>http://220.230.122.180/image/r_gangnam.jpg</item>
+        <item>http://220.230.122.180/image/r_daehakro.jpg</item>
+    </string-array>
+
+    <string-array name="genre">
+        <item>힙합</item>
+        <item>락</item>
+        <item>어쿠스틱</item>
+        <item>댄스</item>
+        <item>발라드</item>
+        <item>재즈</item>
+    </string-array>
+
+    <string-array name="genre_picture">
+        <item>http://220.230.122.180/image/g_hiphop.jpg</item>
+        <item>http://220.230.122.180/image/g_rock.jpg</item>
+        <item>http://220.230.122.180/image/g_acoustic.jpg</item>
+        <item>http://220.230.122.180/image/g_dance.jpg</item>
+        <item>http://220.230.122.180/image/g_ballad.jpg</item>
+        <item>http://220.230.122.180/image/g_jazz.jpg</item>
+    </string-array>
+
+    <string-array name="performance">
+        <item>performance1</item>
+        <item>performance2</item>
+    </string-array>
+
+    <string-array name="editInfo">
+        <item>이메일</item>
+        <item>비밀번호</item>
+        <item>비밀번호 확인</item>
+    </string-array>
+
+
+
+</resources>

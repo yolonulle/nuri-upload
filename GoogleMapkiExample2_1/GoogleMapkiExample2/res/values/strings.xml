@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, GoogleMapkiexampleActivity!</string>
+    <string name="app_name">GoogleMapki example</string>
+	<string name="action_settings">Action Settingd</string>
+	<string name="longTouchPlease">길게 터치한 후 기다려 주세요.</string>
+	<string name="map_not_ready">Map is not ready yet</string>
+	<string name="searchName">검색명</string>
+</resources>

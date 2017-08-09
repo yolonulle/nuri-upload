@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ExtraTranslation">
+        <ignore path="res/values-af/auth_strings.xml" />
+    </issue>
+    <issue id="MissingTranslation">
+        <ignore path="res/values/common_strings.xml" />
+        <ignore path="res/values/wallet_strings.xml" />
+    </issue>
+</lint>
