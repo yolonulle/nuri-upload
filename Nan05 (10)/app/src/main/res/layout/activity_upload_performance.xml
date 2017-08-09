@@ -23,12 +23,12 @@
             android:layout_height="420dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/white"
+            android:layout_marginBottom="30dp"
             android:padding="0dp"
             android:scaleType="fitXY"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/ic_menu_gallery" />
+            app:srcCompat="@drawable/ic_menu_gallery"
+            android:background="@drawable/border"/>
 
         <ImageButton
             android:id="@+id/imgbtn"
@@ -41,11 +41,12 @@
             android:layout_centerHorizontal="true" />
 
         <EditText
+            android:background="@drawable/border"
             android:id="@+id/edtSetTitle"
             android:layout_width="368dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnSetImage"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="30dp"
             android:hint="공연 제목"
             android:inputType="textPersonName"
             android:padding="10dp"
@@ -63,16 +64,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="30dp">
 
                 <Button
                     android:id="@+id/btnSetDate"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:backgroundTint="@color/white"
-                    android:text="날짜 선택" />
+                    android:text="날짜 선택"
+                    android:layout_marginRight="40dp"/>
 
                 <TextView
+                    android:padding="10dp"
+                    android:background="@drawable/border"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/date_tv"
@@ -85,9 +90,11 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="30dp">
 
                 <Button
+                    android:layout_marginRight="40dp"
                     android:id="@+id/btnSetTime"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
@@ -95,6 +102,8 @@
                     android:text="시간 선택" />
 
                 <TextView
+                    android:padding="10dp"
+                    android:background="@drawable/border"
                     android:id="@+id/time_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -114,26 +123,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_marginBottom="30dp">
 
                 <TextView
                     android:id="@+id/genre_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
                     android:text="장르"
                     android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp" />
 
                 <Spinner
+                    android:gravity="center_vertical|center"
+                    android:background="@drawable/border"
                     android:layout_weight="1"
                     android:id="@+id/spinnerSetGenre"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginRight="5dp"
-                    android:background="@color/white"
                     android:entries="@array/genre" />
 
             </LinearLayout>
@@ -141,26 +151,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_marginBottom="30dp">
 
                 <TextView
                     android:id="@+id/region_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
                     android:text="지역"
                     android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp" />
 
                 <Spinner
+                    android:gravity="center_vertical|center"
+                    android:background="@drawable/border"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
                     android:id="@+id/spinnerSetRegion"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/white"
                     android:entries="@array/region" />
 
             </LinearLayout>
@@ -188,7 +199,7 @@
                     android:padding="5dp"
                     android:layout_marginTop="8dp"
                     android:hint="상세 주소"
-                    android:background="@color/white"/>
+                    android:background="@drawable/border"/>
 
             </LinearLayout>
 
@@ -204,22 +215,22 @@
             android:orientation="vertical">
 
             <EditText
+                android:background="@drawable/border"
                 android:cursorVisible="true"
                 android:id="@+id/edtKeyword"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@color/white"
                 android:hint="#해시태그"
                 android:inputType="textPersonName"
                 android:textColorHint="#9e9e9e" />
 
             <EditText
+                android:background="@drawable/border"
                 android:cursorVisible="true"
                 android:id="@+id/edtIntroPerformance"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/white"
                 android:hint="공연 소개.   ex)가격, 출연진, 예매링크.."
                 android:inputType="textMultiLine"
                 android:textColorHint="#9e9e9e" />

@@ -114,7 +114,7 @@ public class LoginActivity extends Activity {
                                             DialogInterface dialog, int id) {
 
                                         // ArtistRegisterActivity
-                                        Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                                        Intent i = new Intent(getApplicationContext(), RegisterArtistActivity.class);
                                         startActivity(i);
                                         finish();
                                     }
@@ -185,9 +185,10 @@ public class LoginActivity extends Activity {
                         String email = user.getString("email");
                         String created_at = user
                                 .getString("created_at");
+                        String verify = user.getString("verify");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at);
+                        db.addUser(name, email, uid, created_at, verify);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,
@@ -205,6 +206,7 @@ public class LoginActivity extends Activity {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
+
             }
         }, new Response.ErrorListener() {
 
@@ -228,6 +230,7 @@ public class LoginActivity extends Activity {
             }
 
         };
+
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }

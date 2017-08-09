@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.inhwa.nan05.R;
 import com.inhwa.nan05.helper.SQLiteHandler;
@@ -57,14 +58,17 @@ public class MainActivity extends AppCompatActivity
 
         String name = user.get("name");
         String email = user.get("email");
+        String verify = user.get("verify");
+
+        Toast.makeText(getApplicationContext(), verify, Toast.LENGTH_LONG).show();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ViewPager viewPager = (ViewPager)findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabs = (TabLayout)findViewById(R.id.tabs);
+        tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -87,9 +91,9 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         // NavigationView에 회원정보 받아오기
-        TextView nav_real = (TextView)header.findViewById(R.id.nav_real);
-        TextView nav_email = (TextView)header.findViewById(R.id.nav_email);
-        ImageView nav_pImage = (ImageView)header.findViewById(R.id.nav_pimage);
+        TextView nav_real = (TextView) header.findViewById(R.id.nav_real);
+        TextView nav_email = (TextView) header.findViewById(R.id.nav_email);
+        ImageView nav_pImage = (ImageView) header.findViewById(R.id.nav_pimage);
         nav_real.setText(name);
         nav_email.setText(email);
         //nav_pImage.setImageBitmap();
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * Logging out the user. Will set isLoggedIn flag to false in shared
      * preferences Clears the user data from sqlite users table
-     * */
+     */
     private void logoutUser() {
         session.setLogin(false);
 
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_upload) {
             // 업로드한 공연
 
-        //} else if (id == R.id.nav_pw) {
+            //} else if (id == R.id.nav_pw) {
             // 비밀번호 찾기
 
         } else if (id == R.id.nav_logout) {
@@ -178,7 +182,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter =  new Adapter(getSupportFragmentManager());
+        Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListByRegionFragment(), "지역으로 찾기");
         adapter.addFragment(new ListOfGenreFragment(), "장르로 찾기");
         viewPager.setAdapter(adapter);
@@ -202,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             return mFragmentList.size();
         }
 
-        public void addFragment(Fragment fragment, String title){
+        public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
